@@ -6,16 +6,23 @@ import androidx.annotation.RequiresApi;
 
 import java.time.LocalDateTime;
 
-public class Note {
+public class Feed {
     private String title;
     private String content;
-    private LocalDateTime created;
+    private String url;
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
-    public Note(String title, String content) {
+    public Feed(String title, String content, String url) {
         this.title = title;
         this.content = content;
-        this.created = LocalDateTime.now();
+        this.url = url;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
     }
 
     public String getTitle() {
@@ -32,13 +39,5 @@ public class Note {
 
     public void setContent(String content) {
         this.content = content;
-    }
-
-    public LocalDateTime getCreated() {
-        return created;
-    }
-
-    public void setCreated(LocalDateTime created) {
-        this.created = created;
     }
 }

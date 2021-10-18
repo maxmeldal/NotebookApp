@@ -11,30 +11,46 @@ import android.widget.ListView;
 
 import com.example.notebook.adapter.NoteAdapter;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
     private ListView listView;
-    public static List<Note> notes = new ArrayList<>();
+    public static List<Feed> feeds = new ArrayList<>();
     private NoteAdapter noteAdapter;
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         listView = findViewById(R.id.listView);
-        noteAdapter = new NoteAdapter(this, notes);
+        noteAdapter = new NoteAdapter(this, feeds);
+        fillList();
         listView.setAdapter(noteAdapter);
         listView.setOnItemClickListener((adapterView, view, i, l) -> {
             Intent intent = new Intent(this, ItemActivity.class);
-            intent.putExtra("title", notes.get(i).getTitle());
-            intent.putExtra("content", notes.get(i).getContent());
+            intent.putExtra("title", feeds.get(i).getTitle());
+            intent.putExtra("content", feeds.get(i).getContent());
+            intent.putExtra("url", feeds.get(i).getUrl());
             intent.putExtra("position", i);
             startActivity(intent);
         });
+    }
+
+    public void fillList(){
+        Thread thread = new Thread(){
+            public void run(){
+                try {
+                    feeds.addAll(RSSParser.getFeeds());
+                } catch (IOException e) {
+                    System.out.println(e.getMessage());
+                }
+            }
+        };
+        noteAdapter.notifyDataSetChanged();
+        thread.start();
     }
 
     @Override
@@ -43,9 +59,8 @@ public class MainActivity extends AppCompatActivity {
         noteAdapter.notifyDataSetChanged();
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
     public void addPressed (View view){
-        notes.add(new Note("Title", "Content"));
+        feeds.add(new Feed("Title", "Content", "Url"));
         noteAdapter.notifyDataSetChanged();
     }
 }

@@ -7,29 +7,29 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import com.example.notebook.Note;
+import com.example.notebook.Feed;
 import com.example.notebook.R;
 
 import java.util.List;
 
 public class NoteAdapter extends BaseAdapter {
 
-    private List<Note> notes;
+    private List<Feed> feeds;
     private LayoutInflater layoutInflater;
 
-    public NoteAdapter(Context context, List<Note> notes) {
-        this.notes = notes;
+    public NoteAdapter(Context context, List<Feed> feeds) {
+        this.feeds = feeds;
         layoutInflater =LayoutInflater.from(context);
     }
 
     @Override
     public int getCount() {
-        return notes.size();
+        return feeds.size();
     }
 
     @Override
     public Object getItem(int i) {
-        return notes.get(i);
+        return feeds.get(i);
     }
 
     @Override
@@ -44,11 +44,15 @@ public class NoteAdapter extends BaseAdapter {
         }
         TextView titleTextView = view.findViewById(R.id.titleTextView);
         TextView subtitleTextView = view.findViewById(R.id.subtitleTextView);
-        if (notes.get(i).getTitle().length() > 10) {
-            titleTextView.setText((notes.get(i).getTitle().substring(0, 10) + "..."));
+        if (feeds.get(i).getTitle().length() > 40) {
+            titleTextView.setText((feeds.get(i).getTitle().substring(0, 40) + "..."));
+        } else {
+            titleTextView.setText(feeds.get(i).getTitle());
         }
-        if (notes.get(i).getContent().length()>30) {
-            subtitleTextView.setText((notes.get(i).getContent().substring(0, 30) + "..."));
+        if (feeds.get(i).getContent().length()>70) {
+            subtitleTextView.setText((feeds.get(i).getContent().substring(0, 70) + "..."));
+        } else {
+            subtitleTextView.setText(feeds.get(i).getContent());
         }
         return view;
     }
