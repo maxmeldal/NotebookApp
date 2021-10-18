@@ -12,12 +12,12 @@ import com.example.notebook.R;
 
 import java.util.List;
 
-public class NoteAdapter extends BaseAdapter {
+public class FeedAdapter extends BaseAdapter {
 
     private List<Feed> feeds;
     private LayoutInflater layoutInflater;
 
-    public NoteAdapter(Context context, List<Feed> feeds) {
+    public FeedAdapter(Context context, List<Feed> feeds) {
         this.feeds = feeds;
         layoutInflater =LayoutInflater.from(context);
     }

@@ -1,15 +1,13 @@
 package com.example.notebook;
 
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ListView;
 
-import com.example.notebook.adapter.NoteAdapter;
+import com.example.notebook.adapter.FeedAdapter;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -19,16 +17,16 @@ public class MainActivity extends AppCompatActivity {
 
     private ListView listView;
     public static List<Feed> feeds = new ArrayList<>();
-    private NoteAdapter noteAdapter;
+    private FeedAdapter feedAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         listView = findViewById(R.id.listView);
-        noteAdapter = new NoteAdapter(this, feeds);
+        feedAdapter = new FeedAdapter(this, feeds);
         fillList();
-        listView.setAdapter(noteAdapter);
+        listView.setAdapter(feedAdapter);
         listView.setOnItemClickListener((adapterView, view, i, l) -> {
             Intent intent = new Intent(this, ItemActivity.class);
             intent.putExtra("title", feeds.get(i).getTitle());
@@ -49,18 +47,18 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         };
-        noteAdapter.notifyDataSetChanged();
+        feedAdapter.notifyDataSetChanged();
         thread.start();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        noteAdapter.notifyDataSetChanged();
+        feedAdapter.notifyDataSetChanged();
     }
 
     public void addPressed (View view){
         feeds.add(new Feed("Title", "Content", "Url"));
-        noteAdapter.notifyDataSetChanged();
+        feedAdapter.notifyDataSetChanged();
     }
 }
